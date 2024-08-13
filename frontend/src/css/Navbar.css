@@ -1,0 +1,24 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 20px;
+    background-color: rgb(35, 101, 75); /* Background color of the navbar */
+    height: 70px; /* Height of the navbar */
+    width: 100%; /* Full width of the viewport */
+    position: fixed; /* Fix the position to the top */
+    top: 0; /* Align it to the top */
+    left: 0; /* Align it to the left */
+    z-index: 1000; /* Ensure it stays on top of other elements */
+}
+
+/* Ensure the logo maintains its aspect ratio */
+.navbar-logo img {
+    height: 52px; /* Height of the logo */
+    width: auto; /* Maintain aspect ratio */
+}
+.attendance{
+    font-size: larger;
+    font-weight: 800;
+    color: #fff;
+  }
