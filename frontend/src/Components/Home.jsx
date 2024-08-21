@@ -55,9 +55,9 @@ const Home = () => {
   return (
     <div>
       <div className='p-3 d-flex justify-content-around mt-3'>
-        <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
+        <div className='px-4 pt-2 pb-3 border shadow-sm w-25 bg-danger-subtle'>
           <div className='text-center pb-1'>
-            <h4>Admin</h4>
+            <h5>Admin</h5>
           </div>
           <hr />
           <div className='d-flex justify-content-between'>
@@ -65,9 +65,9 @@ const Home = () => {
             <h5>{adminTotal}</h5>
           </div>
         </div>
-        <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
+        <div className='px-4 pt-2 pb-3 border shadow-sm w-25 bg-warning-subtle'>
           <div className='text-center pb-1'>
-            <h4>Staff</h4>
+            <h5>Staff</h5>
           </div>
           <hr />
           <div className='d-flex justify-content-between'>
@@ -75,9 +75,9 @@ const Home = () => {
             <h5>{employeeTotal}</h5>
           </div>
         </div>
-        <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
+        <div className='px-4 pt-2 pb-3 border shadow-sm w-25 bg-info-subtle'>
           <div className='text-center pb-1'>
-            <h4>Branches</h4>
+            <h5>Branches</h5>
           </div>
           <hr />
           <div className='d-flex justify-content-between'>
@@ -86,8 +86,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className='mt-4 px-5 pt-3'>
-        <h3>List of Admins</h3>
+      <div className='mt-3 px-5 pt-3'>
+        <h5>List of Admins</h5>
         <table className='table'>
           <thead>
             <tr>
@@ -102,7 +102,7 @@ const Home = () => {
                   <td>{a.email}</td>
                   <td>
                   <button
-                    className="btn btn-info btn-sm me-2">
+                    className="btn btn-success btn-sm me-2">
                     Edit
                   </button>
                   <button

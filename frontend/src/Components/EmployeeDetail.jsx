@@ -4,78 +4,51 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const EmployeeDetail = () => {
   const [employee, setEmployee] = useState({});
-  const [branches, setBranches] = useState([]);
-  const [error, setError] = useState(null);
+  const [branch, setBranch] = useState({}); 
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch employee details
     axios.get(`http://localhost:3000/employee/detail/${id}`)
       .then(result => {
-        console.log('Employee Details Response:', result.data); // Log the response data
-        if (result.data.Result && result.data.Result.length > 0) {
-          setEmployee(result.data.Result[0]); // Access the first element of the array
+        if (result.data.length > 0) {
+          setEmployee(result.data[0]);
+          axios.get(`http://localhost:3000/auth/branch/${result.data[0].branch_id}`)
+            .then(branchResult => {
+              if (branchResult.data.Status) {
+                setBranch(branchResult.data.Result);
+              } else {
+                console.error(branchResult.data.Error);
+              }
+            })
+            .catch(err => console.error(err));
         } else {
-          setError('Employee not found.');
+          console.error('Employee not found');
         }
       })
-      .catch(err => {
-        console.error('Error fetching employee details:', err);
-        setError('Failed to fetch employee details.');
-      });
-
-    // Fetch branches
-    axios.get('http://localhost:3000/auth/branch')
-      .then(result => {
-        console.log('Branches Response:', result.data); // Log the branches response data
-        if (result.data.Status) {
-          setBranches(result.data.Result);
-        } else {
-          setError(result.data.Error);
-        }
-      })
-      .catch(err => {
-        console.error('Error fetching branches:', err);
-        setError('Failed to fetch branches.');
-      });
-  }, [id]); // Only id is required as a dependency
-
-  const handleLogout = () => {
-    axios.get('http://localhost:3000/employee/logout')
-      .then(result => {
-        if (result.data.Status) {
-          localStorage.removeItem("valid");
-          navigate('/');
-        }
-      })
-      .catch(err => {
-        console.error('Error logging out:', err);
-        setError('Failed to logout.');
-      });
-  };
-
-  // Function to get branch name by ID
-  const getBranchName = (branchId) => {
-    const branch = branches.find(b => b.id === branchId);
-    return branch ? branch.branch : "Unknown"; // Ensure correct field names
-  };
+      .catch(err => console.log(err));
+  }, [id]);
 
   return (
-    <div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div className='d-flex justify-content-center flex-column align-items-center mt-0'>
-        <div className='d-flex align-items-center flex-column mt-1'>
-          <h3>Name: {employee.name || 'N/A'}</h3>
-          <h3>Email: {employee.email || 'N/A'}</h3>
-          <h3>Branch: {employee.branch_id ? getBranchName(employee.branch_id) : 'Unknown'}</h3>
-        </div>
-        <div>
-          <button className='btn btn-danger' onClick={handleLogout}>Logout</button>
+    <div className="container mt-3">
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <div className="card">
+            <div className="card-body bg-success">
+              <h5 className="card-header text-light">Staff Details</h5>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">Name: {employee.name || 'N/A'}</li>
+                <li className="list-group-item">Email: {employee.email || 'N/A'}</li>
+                <li className="list-group-item">Branch: {branch.branch || 'N/A'}</li>
+                <li className="list-group-item">Payroll No: {employee.location || 'N/A'}</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default EmployeeDetail;
+

@@ -19,6 +19,9 @@ import AddBranch from './Components/AddBranch';
 import Branch from './Components/Branch';
 import EmployeeDashboard from './Components/EmployeeDashboard';
 import MarkAttendance from './Components/MarkAttendance';
+import AttendanceReport from './Components/AttendanceReport';
+import EmployeeSignup from './Components/EmployeeSignup';
+
 
 function App() {
   return (
@@ -29,6 +32,7 @@ function App() {
         <Route path='/adminlogin' element={<Login />} />
         <Route path='/employee_login' element={<EmployeeLogin />} />
         <Route path='/employee_detail/:id' element={<EmployeeDetail />} />
+        <Route path='/employee_signup' element={<EmployeeSignup />} />
 
         {/* Employee Dashboard Route with nested routes */}
         <Route path='/employee_dashboard/:id' element={
@@ -37,7 +41,7 @@ function App() {
           </PrivateRoute>
         }>
           <Route path='' element={<EmployeeDetail />} />
-          <Route path='mark_attendance' element={<MarkAttendance />} />
+          <Route path='mark_attendance' element={<MarkAttendance />} />       
           
         </Route>
 
@@ -55,6 +59,7 @@ function App() {
           <Route path='/dashboard/edit_employee/:id' element={<EditEmployee />} />
           <Route path='/dashboard/branch' element={<Branch />} />
           <Route path='/dashboard/add_branch' element={<AddBranch />} />
+          <Route path='/dashboard/reportattendance' element={<AttendanceReport />} />
         </Route>
       </Routes>
     </BrowserRouter>

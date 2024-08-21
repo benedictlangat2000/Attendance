@@ -58,6 +58,20 @@ router.get('/branch', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+
+// Route to get a specific branch by ID
+router.get('/branch/:id', (req, res) => {
+    const branchId = req.params.id;
+    const sql = "SELECT * FROM branch WHERE id = ?";
+    con.query(sql, [branchId], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"});
+        if(result.length > 0) {
+            return res.json({Status: true, Result: result[0]});
+        } else {
+            return res.status(404).json({Status: false, Error: "Branch not found"});
+        }
+    });
+});
 router.post('/add_branch', (req, res) => {
     const sql = "INSERT INTO branch (`branch`, `latitude`, `longitude`) VALUES (?, ?, ?)";
     con.query(sql, [req.body.branch, req.body.latitude, req.body.longitude], (err, result) => {
@@ -108,7 +122,12 @@ router.get('/employee', (req, res) => {
 
 router.get('/employee/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "SELECT * FROM employee WHERE id = ?";
+    const sql = `
+        SELECT e.*, b.branch AS branch_name 
+        FROM employee e
+        JOIN branch b ON e.branch_id = b.id
+        WHERE e.id = ?
+    `;
     con.query(sql,[id], (err, result) => {
         if(err) return res.json({Status: false, Error: "Query Error"})
         return res.json({Status: true, Result: result})
@@ -180,6 +199,39 @@ router.get('/admin_records', (req, res) => {
     })
 })
 
+// Route for fetching attendance records
+// Route for fetching attendance records based on employee and branch IDs
+router.get('/attendance', (req, res) => {
+    const sql = `
+      SELECT 
+        a.id AS attendance_id,
+        a.checkin_date,
+        a.checkout_date,
+        a.ip_address,
+        e.name AS employee_name,
+        e.email AS employee_email,
+        b.branch AS branch_name
+      FROM 
+        attendance a
+      INNER JOIN 
+        employee e ON a.employee_id = e.id
+      INNER JOIN 
+        branch b ON a.branch_id = b.id
+      WHERE
+        a.employee_id = e.id AND a.branch_id = b.id
+      ORDER BY 
+        a.checkin_date DESC
+    `;
+  
+    con.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error querying database:', err);
+        return res.status(500).json({ Status: false, Error: "Query Error" });
+      }
+      return res.status(200).json({ Status: true, Result: result });
+    });
+  });
+  
 router.get('/logout', (req, res) => {
     res.clearCookie('token')
     return res.json({Status: true})

@@ -16,34 +16,48 @@ const Category = () => {
             }
         }).catch(err => console.log(err))
     }, [])
-    
-  return (
-    <div className='px-5 mt-3'>
-        <div className='d-flex justify-content-center'>
-            <h3>Cetegory List</h3>
-        </div>
-        <Link to="/dashboard/add_category" className='btn btn-success'>Add Cetegory</Link>
-        <div className='mt-3'>
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        category.map(c => (
-                            <tr>
-                                <td>{c.name}</td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-        </div>
 
-    </div>
-  )
+
+    return (
+        <div className='px-5 mt-3'>
+            <div className='card'>
+                <div className='card-header text-black text-center'>
+                    <h5>Category List</h5>
+                </div>
+                <div className='card-body'>
+                    <Link to="/dashboard/add_category" className='btn btn-success btn-sm mb-3'>Add Category</Link>
+                    <div className='table-responsive'>
+                        <table className='table'>
+                            <thead className='text-white bg-danger-subtle'>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Name</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody className='text-center'>
+                                {
+                                    category.map((c, index) => {
+                                        // Create a new row every three items
+                                        if (index % 3 === 0) {
+                                            return (
+                                                <tr key={index}>
+                                                    <td>{c.name}</td>
+                                                    <td>{category[index + 1]?.name || ''}</td>
+                                                    <td>{category[index + 2]?.name || ''}</td>
+                                                </tr>
+                                            );
+                                        }
+                                        return null;
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default Category

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 const Branch = () => {
     const [branch, setBranch] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [branchesPerPage] = useState(10); // Number of branches per page
 
     useEffect(() => {
         axios.get('http://localhost:3000/auth/branch')
@@ -21,6 +23,16 @@ const Branch = () => {
             });
     }, []);
 
+    const indexOfLastBranch = currentPage * branchesPerPage;
+    const indexOfFirstBranch = indexOfLastBranch - branchesPerPage;
+    const currentBranches = branch.slice(indexOfFirstBranch, indexOfLastBranch);
+
+    const totalPages = Math.ceil(branch.length / branchesPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <div className='px-5 mt-3'>
             <div className='d-flex justify-content-center'>
@@ -29,15 +41,15 @@ const Branch = () => {
             <Link to="/dashboard/add_branch" className='btn btn-success'>Add Branch</Link>
             <div className='mt-3'>
                 <table className='table'>
-                    <thead>
+                    <thead className='table-dark'>
                         <tr>
                             <th>Name</th>
                             <th>Latitude</th>
                             <th>Longitude</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {branch.map(b => (
+                    <tbody className='table-secondary'>
+                        {currentBranches.map(b => (
                             <tr key={b.id}>
                                 <td>{b.branch}</td>
                                 <td>{b.latitude}</td>
@@ -46,6 +58,41 @@ const Branch = () => {
                         ))}
                     </tbody>
                 </table>
+
+                <div className="d-flex justify-content-center mt-3">
+                    <nav aria-label="Page navigation">
+                        <ul className="pagination">
+                            <li className="page-item">
+                                <button
+                                    className="page-link"
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                >
+                                    Previous
+                                </button>
+                            </li>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                    <button
+                                        className="page-link"
+                                        onClick={() => handlePageChange(index + 1)}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                </li>
+                            ))}
+                            <li className="page-item">
+                                <button
+                                    className="page-link"
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    Next
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     );

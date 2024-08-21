@@ -48,7 +48,7 @@ const Dashboard = () => {
                 >
                   <i className="fs-5 bi-people ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">
-                    Manage Employees
+                    Manage Staff
                   </span>
                 </Link>
               </li>
@@ -81,11 +81,11 @@ const Dashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/dashboard/profile"
+                  to="/dashboard/reportattendance"
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-5 bi-receipt ms-2"></i>
-                  <span className="ms-1 d-none d-sm-inline fs-6"> Attendance Reports</span>
+                  <span className="ms-1 d-none d-sm-inline fs-6"> Attendance</span>
                 </Link>
               </li>
               <li className="w-100" onClick={handleLogout}>
@@ -101,7 +101,7 @@ const Dashboard = () => {
         </div>
         <div className="col p-0 m-0">
             <div className="p-2 d-flex justify-content-center shadow">
-                <h4>AA Attendance System</h4>
+                <h5>AA Attendance System</h5>
             </div>
             <Outlet />
         </div>

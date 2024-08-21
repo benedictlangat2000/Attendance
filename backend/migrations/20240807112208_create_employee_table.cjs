@@ -14,7 +14,7 @@ exports.up = async (knex) => {
           table.timestamps(true, true); // Adds created_at and updated_at columns
       });
   }
-};
+}; 
 
 exports.down = async (knex) => {
   // Drop the table if it exists

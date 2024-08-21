@@ -72,8 +72,8 @@ const AddEmployee = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
-      <div className="p-3 rounded w-50 border">
-        <h3 className="text-center">Add Employee</h3>
+      <div className="p-3 rounded w-50 border bg-light">
+        <h4 className="text-center">Add Staff</h4>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputName" className="form-label">
@@ -177,7 +177,7 @@ const AddEmployee = () => {
             </select>
           </div>
           <div className="col-12">
-            <button type="submit" className="btn btn-primary w-100">
+            <button type="submit" className="btn btn-success w-100">
               Add Employee
             </button>
           </div>

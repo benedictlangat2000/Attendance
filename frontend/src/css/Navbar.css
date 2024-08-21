@@ -17,8 +17,12 @@
     height: 52px; /* Height of the logo */
     width: auto; /* Maintain aspect ratio */
 }
-.attendance{
+
+.attendance {
     font-size: larger;
     font-weight: 800;
     color: #fff;
-  }
+    margin-left: 20px;
+}
+
+
