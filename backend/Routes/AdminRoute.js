@@ -43,13 +43,52 @@ router.get('/category', (req, res) => {
     })
 })
 
+// Route to add a new category
 router.post('/add_category', (req, res) => {
-    const sql = "INSERT INTO category (`name`) VALUES (?)"
-    con.query(sql, [req.body.category], (err, result) => {
-        if(err) return res.json({Status: false, Error: "Query Error"})
-        return res.json({Status: true})
-    })
-})
+  const categoryName = req.body.category;
+
+  // First, check if the category already exists
+  const checkSql = "SELECT COUNT(*) AS count FROM category WHERE name = ?";
+  con.query(checkSql, [categoryName], (err, result) => {
+      if (err) {
+          return res.json({ Status: false, Error: "Query Error" });
+      }
+
+      if (result[0].count > 0) {
+          // If the category already exists, return an error response
+          return res.json({ Status: false, Error: "Category already exists" });
+      }
+
+      // If the category does not exist, proceed with inserting it
+      const insertSql = "INSERT INTO category (`name`) VALUES (?)";
+      con.query(insertSql, [categoryName], (err, result) => {
+          if (err) {
+              return res.json({ Status: false, Error: "Query Error" });
+          }
+          return res.json({ Status: true });
+      });
+  });
+});
+
+
+// Route to update a category
+router.put('/update_category/:id', (req, res) => {
+  const sql = "UPDATE category SET name = ? WHERE id = ?";
+  con.query(sql, [req.body.name, req.params.id], (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Query Error" });
+      return res.json({ Status: true });
+  });
+});
+
+// Route to delete a category
+router.delete('/delete_category/:id', (req, res) => {
+  const sql = "DELETE FROM category WHERE id = ?";
+  con.query(sql, [req.params.id], (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Query Error" });
+      return res.json({ Status: true });
+  });
+});
+
 
 router.get('/branch', (req, res) => {
     const sql = "SELECT * FROM branch";
@@ -83,6 +122,38 @@ router.post('/add_branch', (req, res) => {
     });
 });
 
+
+// Fetch all branches
+router.get('/branch', (req, res) => {
+  const sql = "SELECT * FROM branch";
+  con.query(sql, (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Query Error" });
+      return res.json({ Status: true, Result: result });
+  });
+});
+
+// Update an existing branch
+router.put('/update_branch/:id', (req, res) => {
+  const { id } = req.params;
+  const { branch, latitude, longitude } = req.body;
+
+  const sql = "UPDATE branch SET branch = ?, latitude = ?, longitude = ? WHERE id = ?";
+  con.query(sql, [branch, latitude, longitude, id], (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Failed to update branch" });
+      return res.json({ Status: true, Message: "Branch updated successfully" });
+  });
+});
+
+// Delete a branch
+router.delete('/delete_branch/:id', (req, res) => {
+  const { id } = req.params;
+
+  const sql = "DELETE FROM branch WHERE id = ?";
+  con.query(sql, [id], (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Failed to delete branch" });
+      return res.json({ Status: true, Message: "Branch deleted successfully" });
+  });
+});
 
 router.post('/add_employee', (req, res) => {
     const sql = `INSERT INTO employee 
@@ -231,7 +302,7 @@ router.get('/attendance', (req, res) => {
       return res.status(200).json({ Status: true, Result: result });
     });
   });
-  
+
 router.get('/logout', (req, res) => {
     res.clearCookie('token')
     return res.json({Status: true})

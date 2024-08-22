@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './style.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+
+
 
 const EmployeeLogin = () => {
   const [values, setValues] = useState({
@@ -69,6 +71,12 @@ const EmployeeLogin = () => {
             <label htmlFor="password">You agree with terms & conditions</label>
           </div>
         </form>
+        <div className="mt-3 text-center">
+          <span>Don't have an account? </span>
+          <Link to="/employee_signup" className="text-success">
+            Sign up
+          </Link>
+        </div>
       </div>
     </div>
   );

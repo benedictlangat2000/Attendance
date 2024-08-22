@@ -5,12 +5,14 @@ import * as XLSX from 'xlsx';
 
 const AttendanceReport = () => {
   const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [filteredRecords, setFilteredRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10);
+  const [visiblePageCount] = useState(5); // Number of visible pages in pagination
 
   useEffect(() => {
     // Fetch attendance records from the server
@@ -19,6 +21,7 @@ const AttendanceReport = () => {
       .then((response) => {
         if (response.data.Status) {
           setAttendanceRecords(response.data.Result);
+          setFilteredRecords(response.data.Result);
         } else {
           setError(response.data.Error);
         }
@@ -31,12 +34,12 @@ const AttendanceReport = () => {
   }, []);
 
   const handleFilter = () => {
-    const filteredRecords = attendanceRecords.filter(record => {
+    const filtered = attendanceRecords.filter(record => {
       const checkinDate = new Date(record.checkin_date);
       return (!startDate || checkinDate >= new Date(startDate)) &&
              (!endDate || checkinDate <= new Date(endDate));
     });
-    setAttendanceRecords(filteredRecords);
+    setFilteredRecords(filtered);
     setCurrentPage(1); // Reset to the first page when filtering
   };
 
@@ -44,20 +47,20 @@ const AttendanceReport = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(attendanceRecords.length / recordsPerPage);
+  const totalPages = Math.ceil(filteredRecords.length / recordsPerPage);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = attendanceRecords.slice(indexOfFirstRecord, indexOfLastRecord);
+  const currentRecords = filteredRecords.slice(indexOfFirstRecord, indexOfLastRecord);
 
   const downloadExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(attendanceRecords);
+    const worksheet = XLSX.utils.json_to_sheet(filteredRecords);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Attendance Report");
     XLSX.writeFile(workbook, "AttendanceReport.xlsx");
   };
 
   const downloadCSV = () => {
-    const csvData = attendanceRecords.map(record => ({
+    const csvData = filteredRecords.map(record => ({
       'Employee Name': record.employee_name,
       'Employee Email': record.employee_email,
       'Branch Name': record.branch_name,
@@ -81,22 +84,35 @@ const AttendanceReport = () => {
     document.body.removeChild(a);
   };
 
+  // Calculate the range of pages to show
+  const halfVisiblePages = Math.floor(visiblePageCount / 2);
+  let startPage = Math.max(1, currentPage - halfVisiblePages);
+  let endPage = Math.min(totalPages, currentPage + halfVisiblePages);
+
+  if (endPage - startPage + 1 < visiblePageCount) {
+    if (startPage === 1) {
+      endPage = Math.min(visiblePageCount, totalPages);
+    } else if (endPage === totalPages) {
+      startPage = Math.max(1, totalPages - visiblePageCount + 1);
+    }
+  }
+
   return (
     <div className='px-2 mt-1'>
       <div className='d-flex justify-content-between align-items-center mb-2'>
         <div className='d-flex justify-content-center flex-grow-1'>
-          <h6 className='text-center w-100'>Attendance Report</h6>
+          <h3 className='text-center w-100'>Attendance Report</h3>
         </div>
         <div className='d-flex'>
-          <button onClick={downloadExcel} className="btn btn-primary btn-sm me-2">Download Excel</button>
-          <button onClick={downloadCSV} className="btn btn-secondary btn-sm">Download CSV</button>
+          <button onClick={downloadExcel} className="btn btn-success btn-sm me-2">Download Excel</button>
+          <button onClick={downloadCSV} className="btn btn-dark btn-sm">Download CSV</button>
         </div>
       </div>
 
       <div className='mb-3 d-flex justify-content-center'>
         <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="form-control me-2" />
         <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="form-control me-2" />
-        <button onClick={handleFilter} className="btn btn-info btn-sm">Filter</button>
+        <button onClick={handleFilter} className="btn btn-success btn-sm">Filter</button>
       </div>
 
       <div className='mt-3'>
@@ -106,25 +122,25 @@ const AttendanceReport = () => {
         {currentRecords.length > 0 && (
           <>
             <table className='table table-striped'>
-              <thead className="table-success">
+              <thead className="table-dark">
                 <tr>
-                  <th>Employee Name</th>
-                  <th>Employee Email</th>
-                  <th>Branch Name</th>
-                  <th>Check-in Date</th>
-                  <th>Checkout Date</th>
-                  <th>IP Address</th>
+                  <th className="small">Employee Name</th>
+                  <th className="small">Employee Email</th>
+                  <th className="small">Branch Name</th>
+                  <th className="small">Check-in Date</th>
+                  <th className="small">Checkout Date</th>
+                  <th className="small">IP Address</th>
                 </tr>
               </thead>
               <tbody>
                 {currentRecords.map(record => (
                   <tr key={record.attendance_id}>
-                    <td>{record.employee_name}</td>
-                    <td>{record.employee_email}</td>
-                    <td>{record.branch_name}</td>
-                    <td>{new Date(record.checkin_date).toLocaleString()}</td>
-                    <td>{record.checkout_date ? new Date(record.checkout_date).toLocaleString() : 'N/A'}</td>
-                    <td>{record.ip_address}</td>
+                    <td className="small">{record.employee_name}</td>
+                    <td className="small">{record.employee_email}</td>
+                    <td className="small">{record.branch_name}</td>
+                    <td className="small">{new Date(record.checkin_date).toLocaleString()}</td>
+                    <td className="small">{record.checkout_date ? new Date(record.checkout_date).toLocaleString() : 'N/A'}</td>
+                    <td className="small">{record.ip_address}</td>
                   </tr>
                 ))}
               </tbody>
@@ -142,16 +158,25 @@ const AttendanceReport = () => {
                       Previous
                     </button>
                   </li>
-                  {[...Array(totalPages)].map((_, index) => (
-                    <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                      <button
-                        className="page-link"
-                        onClick={() => handlePageChange(index + 1)}
-                      >
-                        {index + 1}
+                  {startPage > 1 && (
+                    <li className="page-item">
+                      <button className="page-link" onClick={() => handlePageChange(1)}>1</button>
+                    </li>
+                  )}
+                  {startPage > 2 && <li className="page-item disabled"><span className="page-link">...</span></li>}
+                  {[...Array(endPage - startPage + 1)].map((_, index) => (
+                    <li key={startPage + index} className={`page-item ${currentPage === startPage + index ? 'active' : ''}`}>
+                      <button className="page-link" onClick={() => handlePageChange(startPage + index)}>
+                        {startPage + index}
                       </button>
                     </li>
                   ))}
+                  {endPage < totalPages - 1 && <li className="page-item disabled"><span className="page-link">...</span></li>}
+                  {endPage < totalPages && (
+                    <li className="page-item">
+                      <button className="page-link" onClick={() => handlePageChange(totalPages)}>{totalPages}</button>
+                    </li>
+                  )}
                   <li className="page-item">
                     <button
                       className="page-link"

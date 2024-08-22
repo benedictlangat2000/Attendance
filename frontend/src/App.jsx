@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Components/Login';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Dashboard from './Components/Dashboard';
 import Home from './Components/Home';
 import Employee from './Components/Employee';
@@ -21,6 +21,8 @@ import EmployeeDashboard from './Components/EmployeeDashboard';
 import MarkAttendance from './Components/MarkAttendance';
 import AttendanceReport from './Components/AttendanceReport';
 import EmployeeSignup from './Components/EmployeeSignup';
+import UserReport from './Components/UseReport';
+
 
 
 function App() {
@@ -33,7 +35,7 @@ function App() {
         <Route path='/employee_login' element={<EmployeeLogin />} />
         <Route path='/employee_detail/:id' element={<EmployeeDetail />} />
         <Route path='/employee_signup' element={<EmployeeSignup />} />
-
+        
         {/* Employee Dashboard Route with nested routes */}
         <Route path='/employee_dashboard/:id' element={
           <PrivateRoute>
@@ -60,6 +62,7 @@ function App() {
           <Route path='/dashboard/branch' element={<Branch />} />
           <Route path='/dashboard/add_branch' element={<AddBranch />} />
           <Route path='/dashboard/reportattendance' element={<AttendanceReport />} />
+          <Route path='/dashboard/user_report' element={<UserReport />} />
         </Route>
       </Routes>
     </BrowserRouter>

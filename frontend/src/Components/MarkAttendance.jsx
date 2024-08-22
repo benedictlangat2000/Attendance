@@ -42,7 +42,7 @@ const MarkAttendance = () => {
       });
 
     // Fetch attendance details
-    axios.get(`http://localhost:3000/attendance`)
+    axios.get(`http://localhost:3000/auth/attendance`)
       .then(result => {
         console.log('Attendance Data:', result.data);
         if (result.data.Status) {

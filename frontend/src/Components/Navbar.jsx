@@ -10,8 +10,8 @@ const Navbar = () => {
                 <img src={logo} alt="Logo" />
             </div>
             <h4 className="attendance">Time Attendance</h4>
-            <button className="ms-auto btn btn-dark">
-            <Link to="/employee_signup" className="text-white text-decoration-none">
+            <button className="ms-auto btn btn-light">
+            <Link to="/employee_signup" className="text-dark fw-bold text-decoration-none">
                 Employee Signup
             </Link>
             </button>

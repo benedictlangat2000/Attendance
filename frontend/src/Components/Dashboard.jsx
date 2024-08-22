@@ -72,11 +72,11 @@ const Dashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/dashboard/profile"
+                  to="/dashboard/user_report"
                   className="nav-link px-0 align-middle text-white"
                 >
-                  <i className="fs-5 bi-person ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Profile</span>
+                  <i className="fs-5 bi-file-earmark-text ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Reports</span>
                 </Link>
               </li>
               <li className="w-100">

@@ -27,3 +27,5 @@ npx knex seed:run --knexfile ./knexfile.cjs
 
 npx knex seed:run --specific attendance.cjs --knexfile ./knexfile.cjs
 
+npx knex migrate:rollback --knexfile ./knexfile.cjs
+

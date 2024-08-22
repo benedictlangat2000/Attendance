@@ -101,7 +101,7 @@ router.post("/employee_signup", (req, res) => {
   con.query(checkEmailQuery, [email], (err, result) => {
     if (err) return res.json({ Status: false, Error: "Query error" });
     if (result.length > 0) {
-      return res.json({ Status: false, Error: "Email already exists" });
+      return res.json({ Status: false, Error: "User already exists" });
     } else {
       // Hash the password
       bcrypt.hash(password, 10, (err, hashedPassword) => {
