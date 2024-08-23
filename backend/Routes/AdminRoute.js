@@ -278,7 +278,8 @@ router.get('/attendance', (req, res) => {
         a.id AS attendance_id,
         a.checkin_date,
         a.checkout_date,
-        a.ip_address,
+        a.checkin_ip,
+        a.checkout_ip,  
         e.name AS employee_name,
         e.email AS employee_email,
         b.branch AS branch_name
@@ -302,6 +303,91 @@ router.get('/attendance', (req, res) => {
       return res.status(200).json({ Status: true, Result: result });
     });
   });
+
+
+ 
+// Function to get IP address from request headers
+const getClientIP = (req) => {
+  return req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown IP';
+};
+
+// Route for handling employee check-in
+router.post('/attendance/checkin', (req, res) => {
+  const { employee_id, branch_id, checkin_date } = req.body;
+  const checkin_ip = getClientIP(req);
+
+  if (!employee_id || !branch_id || !checkin_date) {
+    return res.status(400).json({ Status: false, Error: 'Missing required fields' });
+  }
+
+  const sql = `
+    INSERT INTO attendance (employee_id, branch_id, checkin_date, checkin_ip)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  con.query(sql, [employee_id, branch_id, checkin_date, checkin_ip], (err, result) => {
+    if (err) {
+      console.error('Error inserting check-in record:', err.message);
+      return res.status(500).json({ Status: false, Error: 'Error checking in', Details: err.message });
+    }
+    return res.status(201).json({
+      Status: true,
+      Message: 'Attendance submitted successfully',
+      id: result.insertId,
+      employee_id,
+      branch_id,
+      checkin_date,
+      checkin_ip
+    });
+  });
+});
+
+// Route for handling employee check-out
+router.post('/attendance/checkout', (req, res) => {
+  const { employee_id, branch_id, checkout_date } = req.body;
+  const checkout_ip = getClientIP(req);
+
+  if (!employee_id || !branch_id || !checkout_date) {
+    return res.status(400).json({ Status: false, Error: 'Missing required fields' });
+  }
+
+  // Extract only the date part from checkout_date
+  const checkinDate = new Date(checkout_date).toISOString().split('T')[0];
+
+  const sql = `
+    UPDATE attendance 
+    SET checkout_date = ?, checkout_ip = ? 
+    WHERE employee_id = ? AND branch_id = ? AND DATE(checkin_date) = ? AND checkout_date IS NULL
+  `;
+
+  con.query(sql, [checkout_date, checkout_ip, employee_id, branch_id, checkinDate], (err, result) => {
+    if (err) {
+      console.error('Error updating checkout record:', err.message);
+      return res.status(500).json({ Status: false, Error: 'Error updating checkout record', Details: err.message });
+    }
+  
+    if (result.affectedRows === 0) {
+      console.warn('No matching check-in record found to update.', {
+        employee_id,
+        branch_id,
+        checkinDate
+      });
+      return res.status(404).json({ Status: false, Error: 'No matching check-in record found to update.' });
+    }
+  
+    return res.status(200).json({
+      Status: true,
+      employee_id,
+      branch_id,
+      checkout_date,
+      checkout_ip,
+      Message: 'Checkout successfully recorded'
+    });
+  });
+});
+
+
+
 
 router.get('/logout', (req, res) => {
     res.clearCookie('token')

@@ -129,7 +129,8 @@ const AttendanceReport = () => {
                   <th className="small">Branch Name</th>
                   <th className="small">Check-in Date</th>
                   <th className="small">Checkout Date</th>
-                  <th className="small">IP Address</th>
+                  <th className="small">Checkin ip Address</th>
+                  <th className="small">Checkout ip Address</th>
                 </tr>
               </thead>
               <tbody>
@@ -140,7 +141,8 @@ const AttendanceReport = () => {
                     <td className="small">{record.branch_name}</td>
                     <td className="small">{new Date(record.checkin_date).toLocaleString()}</td>
                     <td className="small">{record.checkout_date ? new Date(record.checkout_date).toLocaleString() : 'N/A'}</td>
-                    <td className="small">{record.ip_address}</td>
+                    <td className="small">{record.checkin_ip}</td>
+                    <td className="small">{record.checkout_ip}</td>
                   </tr>
                 ))}
               </tbody>

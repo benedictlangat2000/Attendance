@@ -30,17 +30,33 @@ const EmployeeDetail = () => {
   }, [id]);
 
   return (
-    <div className="container mt-3">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <div className="card">
-            <div className="card-body bg-success">
-              <h5 className="card-header text-light">Staff Details</h5>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card shadow">
+            <div className="card-header bg-dark text-white text-center">
+              <h6 className="mb-0">Staff Details</h6>
+            </div>
+            <div className="card-body bg-light">
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">Name: {employee.name || 'N/A'}</li>
-                <li className="list-group-item">Email: {employee.email || 'N/A'}</li>
-                <li className="list-group-item">Branch: {branch.branch || 'N/A'}</li>
-                <li className="list-group-item">Payroll No: {employee.location || 'N/A'}</li>
+                <li className="list-group-item">
+                  <strong>Name:</strong> {employee.name || 'N/A'}
+                </li>
+                <li className="list-group-item">
+                  <strong>Email:</strong> {employee.email || 'N/A'}
+                </li>
+                <li className="list-group-item">
+                  <strong>Branch:</strong> {branch.branch || 'N/A'}
+                </li>
+                <li className="list-group-item">
+                  <strong>Latitude:</strong> {branch.latitude || 'N/A'}
+                </li>
+                <li className="list-group-item">
+                  <strong>Longitude:</strong> {branch.longitude || 'N/A'}
+                </li>
+                <li className="list-group-item">
+                  <strong>Town:</strong> {employee.location || 'N/A'}
+                </li>
               </ul>
             </div>
           </div>
@@ -48,6 +64,7 @@ const EmployeeDetail = () => {
       </div>
     </div>
   );
+  
 }
 
 export default EmployeeDetail;

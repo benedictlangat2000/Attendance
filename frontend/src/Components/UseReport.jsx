@@ -122,7 +122,7 @@ const UserReport = () => {
           <button onClick={downloadCSV} className="btn btn-dark btn-sm">Download CSV</button>
         </div>
       </div>
-
+  
       <div className='mb-3'>
         <div className='row'>
           <div className='col-md-3 mb-2'>
@@ -166,14 +166,14 @@ const UserReport = () => {
         </div>
         <button onClick={handleFilter} className="btn btn-success btn-sm mt-2">Apply Filters</button>
       </div>
-
+  
       {loading ? (
         <div className='text-center'>Loading...</div>
       ) : error ? (
         <div className='text-danger'>{error}</div>
       ) : (
-        <div>
-          <table className='table table-striped'>
+        <div className='table-responsive'>
+          <table className='table table-striped table-fixed'>
             <thead className="table-dark">
               <tr>
                 <th className="small">Employee Name</th>
@@ -181,7 +181,8 @@ const UserReport = () => {
                 <th className="small">Branch Name</th>
                 <th className="small">Check-in Date</th>
                 <th className="small">Checkout Date</th>
-                <th className="small">IP Address</th>
+                <th className="small">Checkin IP Address</th>
+                <th className="small">Checkout IP Address</th>
               </tr>
             </thead>
             <tbody>
@@ -192,12 +193,13 @@ const UserReport = () => {
                   <td className="small">{record.branch_name}</td>
                   <td className="small">{new Date(record.checkin_date).toLocaleString()}</td>
                   <td className="small">{record.checkout_date ? new Date(record.checkout_date).toLocaleString() : 'N/A'}</td>
-                  <td className="small">{record.ip_address}</td>
+                  <td className="small">{record.checkin_ip}</td>
+                  <td className="small">{record.checkout_ip}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-
+  
           <nav>
             <ul className="pagination">
               <li className="page-item">
@@ -241,6 +243,7 @@ const UserReport = () => {
       )}
     </div>
   );
+  
 };
 
 export default UserReport;
