@@ -262,6 +262,15 @@ router.get('/branch_count', (req, res) => {
     })
 })
 
+
+router.get('/category_count', (req, res) => {
+  const sql = "select count(id) as category from category";
+  con.query(sql, (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"+err})
+      return res.json({Status: true, Result: result})
+  })
+})
+
 router.get('/admin_records', (req, res) => {
     const sql = "select * from admin"
     con.query(sql, (err, result) => {
@@ -303,6 +312,42 @@ router.get('/attendance', (req, res) => {
       return res.status(200).json({ Status: true, Result: result });
     });
   });
+
+
+ // Route for fetching attendance records for the logged-in user without date filtering
+router.get('/attendance/report/:id', (req, res) => {
+  const userId = req.params.id; // Get the user ID from the URL parameter
+
+  let sql = `
+    SELECT 
+      a.id AS attendance_id,
+      a.checkin_date,
+      a.checkout_date,
+      a.checkin_ip,
+      a.checkout_ip,  
+      e.name AS employee_name,
+      e.email AS employee_email,
+      b.branch AS branch_name
+    FROM 
+      attendance a
+    INNER JOIN 
+      employee e ON a.employee_id = e.id
+    INNER JOIN 
+      branch b ON a.branch_id = b.id
+    WHERE
+      a.employee_id = ?
+    ORDER BY a.checkin_date DESC
+  `;
+
+  con.query(sql, [userId], (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      return res.status(500).json({ Status: false, Error: "Query Error" });
+    }
+    return res.status(200).json({ Status: true, Result: result });
+  });
+});
+
 
 
  

@@ -145,7 +145,7 @@ const Employee = () => {
             <tr className="table-dark">
               <th className="small">Name</th>
               <th className="small">Email</th>
-              <th className="small">Payroll No.</th>
+              <th className="small">Town</th>
               <th className="small">Category</th>
               <th className="small">Branch</th>
               <th className="small">Action</th>

@@ -211,42 +211,45 @@ const MarkAttendance = () => {
   
   return (
     <div className="container mt-4">
-      <h4 className="text-center mb-4">Mark Attendance</h4>
-      
+      <h5 className="text-center mb-4">Mark Attendance</h5>
+  
       {error && <div className="alert alert-danger">{error}</div>}
-      
+  
       <div className="row mb-3">
         {branch && (
           <div className="col-md-6">
-            <div className="card">
+            <div className="card border-primary shadow-sm mb-3">
+              <div className="card-header bg-warning-subtle text-dark fw-bold text-center">Branch Details</div>
               <div className="card-body">
-                <h5 className="card-title">Branch Details</h5>
-                <p className="card-text">Branch: {branch.branch}</p><br />
-                <p className="card-text">Branch Coordinates</p>
-                <h6>Latitude: {branch.latitude}</h6>
-                <h6>Longitude: {branch.longitude}</h6>
+                <p className="card-text"><strong>Branch:</strong> {branch.branch}</p>
+                <hr />
+                <p className="card-text"><strong>Branch Coordinates</strong></p>
+                <p><strong>Latitude:</strong> {branch.latitude}</p>
+                <p><strong>Longitude:</strong> {branch.longitude}</p>
               </div>
             </div>
           </div>
         )}
-        
+  
         {employee && (
           <div className="col-md-6">
-            <div className="card">
+            <div className="card border-info shadow-sm mb-3">
+              <div className="card-header bg-info-subtle text-dark fw-bold text-center">Employee Details</div>
               <div className="card-body">
-                <h5 className="card-title">Employee Details</h5>
-                <p className="card-text">Employee: {employee.name}</p>
-                <p className="card-text">Current Location  </p>
-                <p>Latitude {currentLocation.latitude}</p>
-                <p>Longitude {currentLocation.longitude}</p>
-                <p className="card-text">IP Address: {ipAddress}</p>
+                <p className="card-text"><strong>Employee:</strong> {employee.name}</p>
+                <hr />
+                <p className="card-text"><strong>Current Location</strong></p>
+                <p><strong>Latitude:</strong> {currentLocation.latitude}</p>
+                <p><strong>Longitude:</strong> {currentLocation.longitude}</p>
+                <hr />
+                <p className="card-text"><strong>IP Address:</strong> {ipAddress}</p>
               </div>
             </div>
           </div>
         )}
       </div>
-      
-      <div className="d-flex justify-content-center">
+  
+      <div className="d-flex">
         <button
           className="btn btn-primary me-2"
           onClick={handleCheckin}
@@ -264,6 +267,7 @@ const MarkAttendance = () => {
       </div>
     </div>
   );
+  
 };
 
 export default MarkAttendance;

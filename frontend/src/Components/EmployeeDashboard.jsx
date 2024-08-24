@@ -21,8 +21,8 @@ const EmployeeDashboard = () => {
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
-        <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-success">
-          <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+        <div className="col-auto col-md-3 col-xl-2 px-0 bg-success" style={{ minHeight: '100vh' }}>
+          <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white">
             <Link
               to={`/employee_dashboard/${id}`} // Update the link to include the ID
               className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none"
@@ -38,7 +38,8 @@ const EmployeeDashboard = () => {
               <li className="w-100">
                 <Link
                   to={`/employee_dashboard/${id}`} // Update the link to include the ID
-                  className="nav-link text-white px-0 align-middle"
+                  className="nav-link text-white px-3 py-2 d-flex align-items-center"
+                  style={{ borderRadius: '0.25rem' }}
                 >
                   <i className="fs-5 bi-speedometer2 ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Dashboard</span>
@@ -47,7 +48,8 @@ const EmployeeDashboard = () => {
               <li className="w-100">
                 <Link
                   to={`/employee_dashboard/${id}/mark_attendance`} // Update the link to include the ID
-                  className="nav-link px-0 align-middle text-white"
+                  className="nav-link text-white px-3 py-2 d-flex align-items-center"
+                  style={{ borderRadius: '0.25rem' }}
                 >
                   <i className="fs-5 bi-clipboard-check ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Mark Attendance</span>
@@ -55,16 +57,20 @@ const EmployeeDashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to={`/employee_dashboard/${id}/attendance_report`} // Update the link to include the ID
-                  className="nav-link px-0 align-middle text-white"
+                  to={`/employee_dashboard/${id}/staff_report`} // Update the link to include the ID
+                  className="nav-link text-white px-3 py-2 d-flex align-items-center"
+                  style={{ borderRadius: '0.25rem' }}
                 >
                   <i className="fs-5 bi-receipt ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Attendance Report</span>
                 </Link>
               </li>
-              <li className="w-100" onClick={handleLogout}>
+              <li className="w-100">
                 <Link
-                  className="nav-link px-0 align-middle text-white"
+                  to="#"
+                  onClick={handleLogout}
+                  className="nav-link text-white px-3 py-2 d-flex align-items-center"
+                  style={{ borderRadius: '0.25rem' }}
                 >
                   <i className="fs-5 bi-power ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Logout</span>
@@ -74,14 +80,15 @@ const EmployeeDashboard = () => {
           </div>
         </div>
         <div className="col p-0 m-0">
-          <div className="p-2 d-flex justify-content-center shadow">
-            <h4>Employee Attendance System</h4>
+          <div className="p-3 d-flex justify-content-center shadow-sm bg-light">
+            <h5 className="mb-0">Employee Attendance System</h5>
           </div>
           <Outlet />
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default EmployeeDashboard;

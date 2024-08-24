@@ -32,30 +32,30 @@ const EmployeeDetail = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow">
-            <div className="card-header bg-dark text-white text-center">
-              <h6 className="mb-0">Staff Details</h6>
+        <div className="col-md-8">
+          <div className="card shadow-sm rounded" style={{ border: '1px solid #dee2e6' }}>
+            <div className="card-header bg-success text-white text-center py-1">
+              <h5 className="mb-0">Staff Details</h5>
             </div>
-            <div className="card-body bg-light">
+            <div className="card-body bg-light" style={{ padding: '1.5rem' }}>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">
-                  <strong>Name:</strong> {employee.name || 'N/A'}
+                <li className="list-group-item" style={{ fontSize: '1rem', padding: '1rem', border: '1px solid #dee2e6' }}>
+                  <strong style={{ color: '#333' }}>Name:</strong> {employee.name || 'N/A'}
                 </li>
-                <li className="list-group-item">
-                  <strong>Email:</strong> {employee.email || 'N/A'}
+                <li className="list-group-item" style={{ fontSize: '1rem', padding: '1rem', border: '1px solid #dee2e6' }}>
+                  <strong style={{ color: '#333' }}>Email:</strong> {employee.email || 'N/A'}
                 </li>
-                <li className="list-group-item">
-                  <strong>Branch:</strong> {branch.branch || 'N/A'}
+                <li className="list-group-item" style={{ fontSize: '1rem', padding: '1rem', border: '1px solid #dee2e6' }}>
+                  <strong style={{ color: '#333' }}>Branch:</strong> {branch.branch || 'N/A'}
                 </li>
-                <li className="list-group-item">
-                  <strong>Latitude:</strong> {branch.latitude || 'N/A'}
+                <li className="list-group-item" style={{ fontSize: '1rem', padding: '1rem', border: '1px solid #dee2e6' }}>
+                  <strong style={{ color: '#333' }}>Latitude:</strong> {branch.latitude || 'N/A'}
                 </li>
-                <li className="list-group-item">
-                  <strong>Longitude:</strong> {branch.longitude || 'N/A'}
+                <li className="list-group-item" style={{ fontSize: '1rem', padding: '1rem', border: '1px solid #dee2e6' }}>
+                  <strong style={{ color: '#333' }}>Longitude:</strong> {branch.longitude || 'N/A'}
                 </li>
-                <li className="list-group-item">
-                  <strong>Town:</strong> {employee.location || 'N/A'}
+                <li className="list-group-item" style={{ fontSize: '1rem', padding: '1rem', border: '1px solid #dee2e6' }}>
+                  <strong style={{ color: '#333' }}>Town:</strong> {employee.location || 'N/A'}
                 </li>
               </ul>
             </div>
@@ -64,6 +64,7 @@ const EmployeeDetail = () => {
       </div>
     </div>
   );
+  
   
 }
 

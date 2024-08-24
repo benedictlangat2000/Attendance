@@ -68,18 +68,19 @@ const EmployeeLogin = () => {
           <button className='btn btn-success w-100 rounded-0 mb-2'>Log in</button>
           <div className='mb-1'>
             <input type="checkbox" name="tick" id="tick" className='me-2'/>
-            <label htmlFor="password">You agree with terms & conditions</label>
+            <label htmlFor="tick">You agree with terms & conditions</label>
           </div>
         </form>
         <div className="mt-3 text-center">
           <span>Don't have an account? </span>
-          <Link to="/employee_signup" className="text-success">
+          <Link to="/employee_signup" className="text-success fw-bold" style={{ fontSize: '1.1rem' }}>
             Sign up
           </Link>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default EmployeeLogin;

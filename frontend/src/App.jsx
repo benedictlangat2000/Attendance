@@ -22,6 +22,7 @@ import MarkAttendance from './Components/MarkAttendance';
 import AttendanceReport from './Components/AttendanceReport';
 import EmployeeSignup from './Components/EmployeeSignup';
 import UserReport from './Components/UseReport';
+import StaffAttendanceReport from './Components/StaffReport';
 
 
 
@@ -43,7 +44,8 @@ function App() {
           </PrivateRoute>
         }>
           <Route path='' element={<EmployeeDetail />} />
-          <Route path='mark_attendance' element={<MarkAttendance />} />       
+          <Route path='mark_attendance' element={<MarkAttendance />} /> 
+          <Route path='staff_report' element={<StaffAttendanceReport />} />      
           
         </Route>
 
@@ -63,6 +65,7 @@ function App() {
           <Route path='/dashboard/add_branch' element={<AddBranch />} />
           <Route path='/dashboard/reportattendance' element={<AttendanceReport />} />
           <Route path='/dashboard/user_report' element={<UserReport />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>
