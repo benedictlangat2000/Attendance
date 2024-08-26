@@ -2,6 +2,8 @@ import express from "express";
 import con from "../utils/db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt'
+import multer from 'multer';
+import xlsx from 'xlsx';
 
 
 
@@ -181,7 +183,63 @@ router.post('/add_employee', (req, res) => {
       });
     });
   });
-  
+
+
+  // Multer configuration to store the file in memory
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
+// Upload endpoint for handling employee data upload
+router.post('/admin/bulk_upload', upload.single('file'), (req, res) => {
+  try {
+      // Parse the uploaded Excel file
+      const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const jsonData = xlsx.utils.sheet_to_json(sheet);
+
+      // Map JSON data to the required format for the database
+      const employees = jsonData.map((row) => ({
+          name: row.Name,
+          email: row.Email,
+          password: row.Password,
+          branch_id: row['Branch ID'],
+          location: row.Location,
+          category_id: row['Category ID'],
+      }));
+
+      // Log the JSON data (optional, for debugging)
+      console.log('Parsed employee data:', employees);
+
+      // Prepare SQL query for bulk insert
+      const sql = `INSERT INTO employee (name, email, password, branch_id, location, category_id) VALUES ?`;
+      const values = employees.map((employee) => [
+          employee.name,
+          employee.email,
+          employee.password,
+          employee.branch_id,
+          employee.location,
+          employee.category_id,
+      ]);
+
+      // Execute the SQL query
+      con.query(sql, [values], (err, result) => {
+          if (err) {
+              console.error('Database error:', err.code, err.sqlMessage);
+              return res.status(500).json({ error: `Database error: ${err.sqlMessage}` });
+          }
+
+          // Send success response
+          res.status(201).json({ message: 'Employees added successfully', result });
+      });
+
+  } catch (error) {
+      console.error('Error processing file:', error);
+      res.status(500).json({ error: 'Failed to process the uploaded file' });
+  }
+});
+
 
 router.get('/employee', (req, res) => {
     const sql = "SELECT * FROM employee";
@@ -190,6 +248,8 @@ router.get('/employee', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+
+
 
 router.get('/employee/:id', (req, res) => {
     const id = req.params.id;
@@ -270,6 +330,8 @@ router.get('/category_count', (req, res) => {
       return res.json({Status: true, Result: result})
   })
 })
+
+
 
 router.get('/admin_records', (req, res) => {
     const sql = "select * from admin"

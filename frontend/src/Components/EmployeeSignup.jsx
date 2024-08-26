@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import '../css/employeesignup.css'
 
 const EmployeeSignup = () => {
   const [name, setName] = useState("");
@@ -63,16 +64,10 @@ const EmployeeSignup = () => {
   };
 
   return (
-    <div className="d-flex pt-2 vh-100 align-items-center justify-content-center">
-      <div className="d-flex flex-column justify-content-center align-items-start w-25 p-4">
-        <h4 className="mb-3">Already have an account?</h4>
-        <Link to="/employee_login" className="btn btn-link text-success fw-bold">Login</Link>
-      </div>
-      <div className="d-flex flex-column w-50">
-        <div
-          className="p-4 rounded border border-success shadow-sm"
-          style={{ fontSize: '0.9rem', fontWeight: 'bold', backgroundColor: '#f9f9f9' }}
-        >
+    <div className="signupPage">
+      <div className="curve"></div>
+      <div className="signupContainer">
+        <div className="signupForm">
           <h5 className="text-center text-success mb-1" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Staff Signup</h5>
           {successMessage && (
             <div className="alert alert-success mb-1">
@@ -134,14 +129,14 @@ const EmployeeSignup = () => {
                 style={{ padding: '0.5rem', backgroundColor: '#e9ecef', border: '1px solid #ced4da', borderRadius: '0.25rem', height: '2rem' }}
               />
             </div>
-            <div className="row g-3">
+            <div className="row g-2">
               <div className="col-6">
                 <label htmlFor="branch" className="form-label">Branch <span className="text-danger">*</span></label>
                 <select
                   name="branch"
                   id="branch"
                   className="form-select"
-                  style={{ padding: '0.5rem', backgroundColor: '#e9ecef', border: '1px solid #ced4da', height: '2.5rem' }}
+                  style={{ padding: '0.2rem', backgroundColor: '#e9ecef', border: '1px solid #ced4da', height: '2.5rem' }}
                   value={branchId}
                   onChange={(e) => setBranchId(e.target.value)}
                   required
@@ -163,7 +158,7 @@ const EmployeeSignup = () => {
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
                   required
-                  style={{ padding: '0.5rem', backgroundColor: '#e9ecef', border: '1px solid #ced4da', height: '2.5rem' }}
+                  style={{ padding: '0.2rem', backgroundColor: '#e9ecef', border: '1px solid #ced4da', height: '2.5rem' }}
                 >
                   <option value="" disabled>Select Category</option>
                   {categories.map((c) => (
@@ -175,8 +170,13 @@ const EmployeeSignup = () => {
               </div>
             </div>
             <div className="col-12">
-              <button type="submit" className="btn btn-success w-100 py-2" style={{ fontSize: '1rem', fontWeight: 'bold' }}>Sign Up</button>
+              <button type="submit" className="btn btn-success w-100 py-1" style={{ fontSize: '1rem', fontWeight: 'bold' }}>Sign Up</button>
             </div>
+            <div className="d-flex justify-content-center align-items-center mt-1">
+            <h6 className="mb-0 me-2">Already have an account?</h6>
+            <Link to="/employee_login" className="btn btn-link text-success fw-bold p-0">Login</Link>
+          </div>
+
           </form>
         </div>
       </div>

@@ -80,7 +80,7 @@ const EmployeeDashboard = () => {
           </div>
         </div>
         <div className="col p-0 m-0">
-          <div className="p-3 d-flex justify-content-center shadow-sm bg-light">
+          <div className="p-2 d-flex justify-content-center bg-success-subtle">
             <h5 className="mb-0">Employee Attendance System</h5>
           </div>
           <Outlet />

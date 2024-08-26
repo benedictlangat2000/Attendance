@@ -110,7 +110,7 @@ const Home = () => {
           </div>
         </div>
         <div
-          className='px-4 pt-2 pb-3 border shadow-sm bg-primary-subtle'
+          className='px-4 pt-2 pb-3 border shadow-sm bg-dark-subtle'
           style={{ width: '24%' }}
         >
           <div className='text-center pb-1'>

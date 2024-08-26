@@ -108,38 +108,43 @@ const Employee = () => {
   return (
     <div className="px-5 mt-3">
       <div className="d-flex justify-content-center">
-        <h3>Employee List</h3>
+        <h5 className="text-success">Employee List</h5>
       </div>
       <Link to="/dashboard/add_employee" className="btn btn-success btn-sm mb-3">
         Add Employee
       </Link>
       <div>
-        <div className="mb-3">
-          <select
-            className="form-select mb-2"
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            value={categoryFilter}
-          >
-            <option value="">Filter by Category</option>
-            {categories.map(category => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <select
-            className="form-select"
-            onChange={(e) => setBranchFilter(e.target.value)}
-            value={branchFilter}
-          >
-            <option value="">Filter by Branch</option>
-            {branches.map(branch => (
-              <option key={branch.id} value={branch.id}>
-                {branch.branch}
-              </option>
-            ))}
-          </select>
+      <div className="row mb-3">
+          <div className="col-6">
+            <select
+              className="form-select"
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              value={categoryFilter}
+            >
+              <option value="">Filter by Category</option>
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-6">
+            <select
+              className="form-select"
+              onChange={(e) => setBranchFilter(e.target.value)}
+              value={branchFilter}
+            >
+              <option value="">Filter by Branch</option>
+              {branches.map(branch => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.branch}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+
         <table className="table table-sm">
           <thead>
             <tr className="table-dark">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './style.css';
+import '../css/style.css';  // Ensure the correct path to your CSS file
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,50 +40,64 @@ const Login = () => {
   };
 
   return (
-    <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
-      <div className='p-3 rounded w-25 border loginForm'>
-        <div className='text-danger'>
-          {error && error}
-        </div>
-        <h4 className="text-center text-success" >Admin login Page</h4>
-        <form onSubmit={handleSubmit}>
-          <div className='mb-3'>
-            <label htmlFor="email"><strong>Email:</strong></label>
-            <input type="email" name='email' autoComplete='off' placeholder='Enter Email'
-              value={values.email} onChange={handleChange} className='form-control rounded-0 bg-light' required/>
-          </div>
-          <div className='mb-3'> 
-            <label htmlFor="password"><strong>Password:</strong></label>
-            <div className="input-group">
+    <div className='loginPage'>
+      <div className='curve'></div>
+      <div className='loginContainer'>
+        <div className='loginForm'>
+          {error && <div className='text-danger mb-3'>{error}</div>}
+          <h4 className="text-center text-success">Admin Login </h4>
+          <form onSubmit={handleSubmit}>
+            <div className='mb-3'>
+              <label htmlFor="email"><strong>Email:</strong></label>
               <input 
-                type={showPassword ? 'text' : 'password'} 
-                name='password' 
-                placeholder='Enter Password'
-                value={values.password} 
+                type="email" 
+                name='email' 
+                autoComplete='off' 
+                placeholder='Enter Email'
+                value={values.email} 
                 onChange={handleChange} 
-                className='form-control bg-light rounded-0' 
+                className='form-control bg-dark-subtle' 
                 required
               />
-              <button 
-                type="button" 
-                className="btn btn-outline-secondary" 
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? 'Hide' : 'Show'}
-              </button>
             </div>
-          </div>
-          <button className='btn btn-success w-100 rounded-0 mb-2' disabled={loading}>
-            {loading ? 'Logging in...' : 'Log in'}
-          </button>
-          <div className='mb-1'> 
-            <input type="checkbox" name="tick" id="tick" className='me-2 text-success'/>
-            <label htmlFor="tick">You agree with terms & conditions</label>
-          </div>
-        </form>
+            <div className='mb-3'>
+              <label htmlFor="password"><strong>Password:</strong></label>
+              <div className="input-group">
+                <input 
+                  type={showPassword ? 'text' : 'password'} 
+                  name='password' 
+                  placeholder='Enter Password'
+                  value={values.password} 
+                  onChange={handleChange} 
+                  className='form-control bg-dark-subtle' 
+                  required
+                />
+                <button 
+                  type="button" 
+                  className="btn btn-outline-secondary" 
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
+            </div>
+            <button className='btn btn-success w-100 rounded-0 mb-2' disabled={loading}>
+              {loading ? 'Logging in...' : 'Log in'}
+            </button>
+            <div className='mb-1'>
+              <input 
+                type="checkbox" 
+                name="tick" 
+                id="tick" 
+                className='me-2 text-success'
+              />
+              <label htmlFor="tick">You agree with terms & conditions</label>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Login;

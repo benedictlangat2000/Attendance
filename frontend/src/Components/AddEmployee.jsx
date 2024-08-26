@@ -67,13 +67,10 @@ const AddEmployee = () => {
       });
   };
   
-
-  
-
   return (
-    <div className="d-flex justify-content-center align-items-center mt-3">
-      <div className="p-3 rounded w-50 border bg-light">
-        <h4 className="text-center">Add Staff</h4>
+    <div className="d-flex justify-content-center align-items-center mt-2">
+      <div className="p-2 rounded w-50 border bg-dark-subtle">
+        <h5 className="text-center">Add Staff</h5>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputName" className="form-label">
@@ -88,6 +85,7 @@ const AddEmployee = () => {
               onChange={(e) =>
                 setEmployee({ ...employee, name: e.target.value })
               }
+              style={{ height: '30px', border: '1px solid #ced4da'}} // Set the height here
             />
           </div>
           <div className="col-12">
@@ -104,6 +102,7 @@ const AddEmployee = () => {
               onChange={(e) =>
                 setEmployee({ ...employee, email: e.target.value })
               }
+              style={{ height: '30px', border: '1px solid #ced4da' }} // Set the height here
             />
           </div>
           <div className="col-12">
@@ -119,6 +118,7 @@ const AddEmployee = () => {
               onChange={(e) =>
                 setEmployee({ ...employee, password: e.target.value })
               }
+              style={{ height: '30px' }} // Set the height here
             />
           </div>
           <div className="col-12">
@@ -135,6 +135,7 @@ const AddEmployee = () => {
               onChange={(e) =>
                 setEmployee({ ...employee, location: e.target.value })
               }
+              style={{ height: '30px', border: '1px solid #ced4da' }} // Set the height here
             />
           </div>
           <div className="col-12">
@@ -145,18 +146,19 @@ const AddEmployee = () => {
               name="branch"
               id="branch"
               className="form-select"
-              value={employee.branch_id} // Updated to match the state
+              value={employee.branch_id}
               onChange={(e) => setEmployee({ ...employee, branch_id: e.target.value })}
+              style={{ height: '38px' }} // Set the height here
             >
               <option value="" disabled>Select Branch</option>
               {branches.map((b) => (
                 <option key={b.id} value={b.id}>
-                  {b.branch} {/* Adjust according to your branch schema */}
+                  {b.branch}
                 </option>
               ))}
             </select>
           </div>
-         
+          
           <div className="col-12">
             <label htmlFor="category" className="form-label">
               Category
@@ -167,6 +169,7 @@ const AddEmployee = () => {
               className="form-select"
               value={employee.category_id}
               onChange={(e) => setEmployee({ ...employee, category_id: e.target.value })}
+              style={{ height: '38px' }} // Set the height here
             >
               <option value="" disabled>Select Category</option>
               {categories.map((c) => (
@@ -185,6 +188,8 @@ const AddEmployee = () => {
       </div>
     </div>
   );
+  
+  
 };
 
 export default AddEmployee;

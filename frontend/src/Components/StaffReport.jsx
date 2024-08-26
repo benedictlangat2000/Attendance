@@ -104,7 +104,7 @@ const StaffAttendanceReport = () => {
     <div className='px-2 mt-1'>
       <div className='d-flex justify-content-between align-items-center mb-2'>
         <div className='d-flex justify-content-center flex-grow-1'>
-          <h3 className='text-center w-100'>Attendance Report</h3>
+          <h4 className='text-center text-success w-100'>Attendance Report</h4>
         </div>
         <div className='d-flex'>
           <button onClick={downloadExcel} className="btn btn-success btn-sm me-2">Download Excel</button>
@@ -113,10 +113,11 @@ const StaffAttendanceReport = () => {
       </div>
 
       <div className='mb-3 d-flex justify-content-center'>
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="form-control me-2" />
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="form-control me-2" />
-        <button onClick={handleFilter} className="btn btn-success btn-sm">Filter</button>
+        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="form-control me-4" />
+        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="form-control me-5" />
+        <button onClick={handleFilter} className="btn btn-success btn-sm w-25">Filter</button>
       </div>
+
 
       <div className='mt-3'>
         {loading && <p className="text-info">Loading...</p>}
@@ -127,25 +128,25 @@ const StaffAttendanceReport = () => {
             <table className='table table-striped'>
               <thead className="table-dark">
                 <tr>
-                  <th className="small">Employee Name</th>
-                  <th className="small">Employee Email</th>
-                  <th className="small">Branch Name</th>
-                  <th className="small">Check-in Date</th>
-                  <th className="small">Checkout Date</th>
-                  <th className="small">Checkin IP Address</th>
+                  <th className="small text-nowrap">Employee Name</th>
+                  <th className="small text-nowrap">Employee Email</th>
+                  <th className="small text-nowrap">Branch Name</th>
+                  <th className="small text-nowrap">Check-in Date</th>
+                  <th className="small text-nowrap">Checkout Date</th>
+                  <th className="small text-nowrap">Checkin IP Address</th>
                   <th className="small">Checkout IP Address</th>
                 </tr>
               </thead>
               <tbody>
                 {currentRecords.map(record => (
                   <tr key={record.attendance_id}>
-                    <td className="small">{record.employee_name}</td>
-                    <td className="small">{record.employee_email}</td>
-                    <td className="small">{record.branch_name}</td>
-                    <td className="small">{new Date(record.checkin_date).toLocaleString()}</td>
-                    <td className="small">{record.checkout_date ? new Date(record.checkout_date).toLocaleString() : 'N/A'}</td>
-                    <td className="small">{record.checkin_ip}</td>
-                    <td className="small">{record.checkout_ip}</td>
+                    <td className="small text-nowrap">{record.employee_name}</td>
+                    <td className="small text-nowrap">{record.employee_email}</td>
+                    <td className="small text-nowrap">{record.branch_name}</td>
+                    <td className="small text-nowrap">{new Date(record.checkin_date).toLocaleString()}</td>
+                    <td className="small text-nowrap">{record.checkout_date ? new Date(record.checkout_date).toLocaleString() : 'N/A'}</td>
+                    <td className="small text-nowrap">{record.checkin_ip}</td>
+                    <td className="small text-nowrap">{record.checkout_ip}</td>
                   </tr>
                 ))}
               </tbody>

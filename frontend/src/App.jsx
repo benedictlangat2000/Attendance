@@ -23,6 +23,7 @@ import AttendanceReport from './Components/AttendanceReport';
 import EmployeeSignup from './Components/EmployeeSignup';
 import UserReport from './Components/UseReport';
 import StaffAttendanceReport from './Components/StaffReport';
+import BulkUpload from './Components/BulkAppload';
 
 
 
@@ -65,6 +66,7 @@ function App() {
           <Route path='/dashboard/add_branch' element={<AddBranch />} />
           <Route path='/dashboard/reportattendance' element={<AttendanceReport />} />
           <Route path='/dashboard/user_report' element={<UserReport />} />
+          <Route path='/dashboard/bulk_upload' element={<BulkUpload />} />
           
         </Route>
       </Routes>

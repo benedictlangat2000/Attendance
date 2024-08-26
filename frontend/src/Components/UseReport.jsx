@@ -15,7 +15,7 @@ const UserReport = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(15);
+  const [recordsPerPage] = useState(10);
   const [visiblePageCount] = useState(10); // Number of visible pages in pagination
 
   useEffect(() => {
@@ -115,16 +115,16 @@ const UserReport = () => {
     <div className='px-2 mt-1'>
       <div className='d-flex justify-content-between align-items-center mb-2'>
         <div className='d-flex justify-content-center flex-grow-1'>
-          <h3 className='text-center w-100'>User Report</h3>
+          <h4 className='text-center w-100 text-success'>User Report</h4>
         </div>
         <div className='d-flex'>
-          <button onClick={downloadExcel} className="btn btn-success btn-sm me-2">Download Excel</button>
+          <button onClick={downloadExcel} className="btn btn-warning btn-sm me-2">Download Excel</button>
           <button onClick={downloadCSV} className="btn btn-dark btn-sm">Download CSV</button>
         </div>
       </div>
   
       <div className='mb-3'>
-        <div className='row'>
+        <div className='row align-items-center'>
           <div className='col-md-3 mb-2'>
             <select 
               value={selectedBranch}
@@ -149,7 +149,7 @@ const UserReport = () => {
               ))}
             </select>
           </div>
-          <div className='col-md-3 mb-2 d-flex align-items-center'>
+          <div className='col-md-4 mb-2 d-flex'>
             <input 
               type="date" 
               value={startDate} 
@@ -163,10 +163,12 @@ const UserReport = () => {
               className="form-control" 
             />
           </div>
+          <div className='col-md-2 mb-2 d-flex justify-content-center'>
+            <button onClick={handleFilter} className="btn btn-success btn-sm w-100">Apply Filters</button>
+          </div>
         </div>
-        <button onClick={handleFilter} className="btn btn-success btn-sm mt-2">Apply Filters</button>
       </div>
-  
+      
       {loading ? (
         <div className='text-center'>Loading...</div>
       ) : error ? (
@@ -174,31 +176,31 @@ const UserReport = () => {
       ) : (
         <div className='table-responsive'>
           <table className='table table-striped table-fixed'>
-            <thead className="table-dark">
-              <tr>
-                <th className="small">Employee Name</th>
-                <th className="small">Employee Email</th>
-                <th className="small">Branch Name</th>
-                <th className="small">Check-in Date</th>
-                <th className="small">Checkout Date</th>
-                <th className="small">Checkin IP Address</th>
-                <th className="small">Checkout IP Address</th>
+          <thead className="table-dark">
+            <tr>
+              <th className="small text-nowrap">Employee Name</th>
+              <th className="small text-nowrap">Employee Email</th>
+              <th className="small text-nowrap">Branch Name</th>
+              <th className="small text-nowrap">Check-in Date</th>
+              <th className="small text-nowrap">Checkout Date</th>
+              <th className="small text-nowrap">Checkin IP Address</th>
+              <th className="small text-nowrap">Checkout IP Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentRecords.map((record, index) => (
+              <tr key={index}>
+                <td className="small text-nowrap">{record.employee_name}</td>
+                <td className="small text-nowrap">{record.employee_email}</td>
+                <td className="small text-nowrap">{record.branch_name}</td>
+                <td className="small text-nowrap">{new Date(record.checkin_date).toLocaleString()}</td>
+                <td className="small text-nowrap">{record.checkout_date ? new Date(record.checkout_date).toLocaleString() : 'N/A'}</td>
+                <td className="small text-nowrap">{record.checkin_ip}</td>
+                <td className="small text-nowrap">{record.checkout_ip}</td>
               </tr>
-            </thead>
-            <tbody>
-              {currentRecords.map((record, index) => (
-                <tr key={index}>
-                  <td className="small">{record.employee_name}</td>
-                  <td className="small">{record.employee_email}</td>
-                  <td className="small">{record.branch_name}</td>
-                  <td className="small">{new Date(record.checkin_date).toLocaleString()}</td>
-                  <td className="small">{record.checkout_date ? new Date(record.checkout_date).toLocaleString() : 'N/A'}</td>
-                  <td className="small">{record.checkin_ip}</td>
-                  <td className="small">{record.checkout_ip}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            ))}
+          </tbody>
+        </table>
   
           <nav>
             <ul className="pagination">
