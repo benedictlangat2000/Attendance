@@ -24,6 +24,11 @@ import EmployeeSignup from './Components/EmployeeSignup';
 import UserReport from './Components/UseReport';
 import StaffAttendanceReport from './Components/StaffReport';
 import BulkUpload from './Components/BulkAppload';
+import AssetsDashboard from './Components/AssetsDashboard';
+import AssetTypesList from './Components/AssetTypesList';
+import AddAssetType from './Components/AddAssetType';
+import Assets from './Components/Assets';
+
 
 
 
@@ -67,7 +72,10 @@ function App() {
           <Route path='/dashboard/reportattendance' element={<AttendanceReport />} />
           <Route path='/dashboard/user_report' element={<UserReport />} />
           <Route path='/dashboard/bulk_upload' element={<BulkUpload />} />
-          
+          <Route path='/dashboard/assets_dashboard' element={<AssetsDashboard />} /> 
+          <Route path='/dashboard/asset_types_list' element={<AssetTypesList />} />    
+          <Route path='/dashboard/add_asset_type' element={<AddAssetType/>} />   
+          <Route path='/dashboard/assets' element={<Assets />} />
         </Route>
       </Routes>
     </BrowserRouter>

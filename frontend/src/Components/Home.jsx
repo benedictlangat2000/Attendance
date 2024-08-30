@@ -26,6 +26,7 @@ const Home = () => {
       }
     })
   }
+
   const adminCount = () => {
     axios.get('http://localhost:3000/auth/admin_count')
     .then(result => {
@@ -34,6 +35,7 @@ const Home = () => {
       }
     })
   }
+
   const employeeCount = () => {
     axios.get('http://localhost:3000/auth/employee_count')
     .then(result => {
@@ -44,6 +46,7 @@ const Home = () => {
       }
     })
   }
+  
   const BranchCount = () => {
     axios.get('http://localhost:3000/auth/branch_count')
     .then(result => {

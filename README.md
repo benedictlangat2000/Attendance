@@ -59,7 +59,7 @@ npx knex seed:run --knexfile ./knexfile.cjs
 To run a specific seed file, use:
 
 ```bash
-npx knex seed:run --specific attendance.cjs --knexfile ./knexfile.cjs
+npx knex seed:run --specific assets.cjs --knexfile ./knexfile.cjs
 ```
 
 ## Rolling Back Seed Files
@@ -68,5 +68,8 @@ To roll back the last batch of seed files, use:
 ```bash
 npx knex seed:rollback --knexfile ./knexfile.cjs
 ```
+
+npx knex migrate:make drop_assets_table --knexfile ./knexfile.cjs
+
 
 

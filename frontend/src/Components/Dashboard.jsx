@@ -95,6 +95,15 @@ const Dashboard = () => {
               </li>
               <li className="nav-item w-100">
                 <Link
+                  to="/dashboard/assets_dashboard"
+                  className="nav-link text-white px-0 py-2 rounded hover-bg-dark"
+                >
+                  <i className="fs-5 bi-laptop me-2"></i>
+                  <span className="d-none d-sm-inline">Asset Management</span>
+                </Link>
+              </li>
+              <li className="nav-item w-100">
+                <Link
                   to="#"
                   onClick={handleLogout}
                   className="nav-link text-white px-0 py-2 rounded hover-bg-dark"
