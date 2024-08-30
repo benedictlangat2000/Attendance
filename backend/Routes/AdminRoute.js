@@ -493,8 +493,150 @@ router.post('/attendance/checkout', (req, res) => {
   });
 });
 
+// Fetch all asset types
+router.get('/asset_types', (req, res) => {
+  const sql = "SELECT * FROM asset_types";
+  con.query(sql, (err, result) => {
+    if (err) {
+      return res.json({ Status: false, Error: "Query Error" });
+    }
+    res.json({ Status: true, Result: result });
+  });
+});
+
+// Add a new asset type
+router.post('/add/asset_type', (req, res) => {
+  const { name } = req.body;
+
+  // Check if the name is provided
+  if (!name) {
+    return res.json({ Status: false, Error: 'Asset type name is required' });
+  }
+
+  const sql = "INSERT INTO asset_types (`name`) VALUES (?)";
+  con.query(sql, [name], (err, result) => {
+    if (err) {
+      console.error("Query Error:", err.message); // Log the exact SQL error
+      return res.json({ Status: false, Error: "Query Error: " + err.message });
+    }
+    return res.json({ Status: true });
+  });
+});
+
+// Fetch asset type by ID
+router.get('/asset_types/detail/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM asset_types WHERE id = ?";
+  con.query(sql, [id], (err, result) => {
+    if (err) {
+      return res.json({ Status: false, Error: "Query Error" });
+    }
+    if (result.length) {
+      res.json({ Status: true, Result: result[0] });
+    } else {
+      res.json({ Status: false, Error: "Asset type not found" });
+    }
+  });
+});
+
+// Update an existing asset type
+router.put('/update/asset_types/:id', (req, res) => {
+  const id = req.params.id;
+  const { name } = req.body;
+  const sql = "UPDATE asset_types SET name = ? WHERE id = ?";
+  con.query(sql, [name, id], (err, result) => {
+    if (err) {
+      return res.json({ Status: false, Error: "Failed to update asset type" });
+    }
+    if (result.affectedRows) {
+      res.json({ Status: true, Message: "Asset type updated successfully" });
+    } else {
+      res.json({ Status: false, Error: "Asset type not found" });
+    }
+  });
+});
+
+// Delete an asset type
+router.delete('/delete/asset_types/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "DELETE FROM asset_types WHERE id = ?";
+  con.query(sql, [id], (err, result) => {
+    if (err) {
+      return res.json({ Status: false, Error: "Failed to delete asset type" });
+    }
+    if (result.affectedRows) {
+      res.json({ Status: true, Message: "Asset type deleted successfully" });
+    } else {
+      res.json({ Status: false, Error: "Asset type not found" });
+    }
+  });
+});
 
 
+// Get all assets
+router.get('/assets', (req, res) => {
+  const sql = "SELECT * FROM assets";
+  con.query(sql, (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Query Error" });
+      return res.json({ Status: true, Result: result });
+  });
+});
+
+// Get a single asset by ID
+router.get('/assets/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `
+      SELECT a.*, at.type_name AS asset_type_name, c.name AS category_name, b.branch AS branch_name
+      FROM assets a
+      JOIN asset_type at ON a.asset_type = at.id
+      JOIN category c ON a.category_id = c.id
+      JOIN branch b ON a.branch_id = b.id
+      WHERE a.id = ?
+  `;
+  con.query(sql, [id], (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Query Error" });
+      return res.json({ Status: true, Result: result });
+  });
+});
+
+// Edit an asset by ID
+router.put('/edit_asset/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `
+      UPDATE assets 
+      SET asset_type = ?, asset_name = ?, asset_tag = ?, serial_no = ?, category_id = ?, branch_id = ?, year_of_purchase = ?, \`condition\` = ? 
+      WHERE id = ?
+  `;
+  
+  const values = [
+      req.body.asset_type,
+      req.body.asset_name,
+      req.body.asset_tag,
+      req.body.serial_no,
+      req.body.category_id,
+      req.body.branch_id,
+      req.body.year_of_purchase,
+      req.body.condition,
+  ];
+
+  con.query(sql, [...values, id], (err, result) => {
+      if (err) {
+          console.error("Query Error:", err); // Log the error for debugging
+          return res.json({ Status: false, Error: "Query Error: " + err.message });
+      }
+      return res.json({ Status: true, Result: result });
+  });
+});
+
+// Delete an asset by ID
+router.delete('/delete_asset/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "DELETE FROM assets WHERE id = ?";
+  con.query(sql, [id], (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Query Error: " + err });
+      return res.json({ Status: true, Result: result });
+  });
+});
 
 router.get('/logout', (req, res) => {
     res.clearCookie('token')
